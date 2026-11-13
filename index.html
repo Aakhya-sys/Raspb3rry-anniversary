@@ -1,0 +1,427 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Raspberry 🩵</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Trebuchet MS', sans-serif;
+  background: linear-gradient(135deg, #001c2b, #006b83, #00c6d7);
+  color: white;
+  text-align: center;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.bubbles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.bubble {
+  position: absolute;
+  bottom: -60px;
+  border: 2px solid #a5f3fc88;
+  border-radius: 50%;
+  animation: float 12s linear infinite;
+}
+
+@keyframes float {
+  to {
+    transform: translateY(-110vh);
+    opacity: 0;
+  }
+}
+
+main {
+  position: relative;
+  z-index: 1;
+  max-width: 650px;
+  margin: auto;
+  padding: 35px 18px 60px;
+}
+
+h1 {
+  font-size: clamp(2.5rem, 9vw, 4rem);
+  color: #a5f3fc;
+  margin: 18px 0;
+  text-shadow: 0 0 22px #00e5ff;
+}
+
+h2 {
+  color: #a5f3fc;
+  margin-bottom: 15px;
+}
+
+p {
+  line-height: 1.7;
+  margin: 10px 0;
+}
+
+.heart {
+  font-size: 48px;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  50% { transform: scale(1.2); }
+}
+
+.card {
+  background: #ffffff16;
+  border: 1px solid #a5f3fc66;
+  border-radius: 25px;
+  padding: 25px 18px;
+  margin: 25px 0;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 35px #00101855;
+}
+
+button {
+  background: #a5f3fc;
+  color: #003746;
+  border: none;
+  border-radius: 30px;
+  padding: 13px 23px;
+  margin: 9px 4px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: .2s;
+}
+
+button:hover {
+  transform: scale(1.05);
+  background: white;
+}
+
+.hidden {
+  display: none;
+}
+
+.timeline {
+  border-left: 3px solid #a5f3fc;
+  text-align: left;
+  padding-left: 20px;
+  margin: 20px 10px;
+}
+
+.timeline p {
+  margin: 20px 0;
+}
+
+.option {
+  display: block;
+  width: 100%;
+  max-width: 390px;
+  margin: 10px auto;
+  background: #ffffff18;
+  color: white;
+  border: 1px solid #a5f3fc88;
+}
+
+.option:hover {
+  background: #00bcd4;
+}
+
+#feedback {
+  min-height: 30px;
+  color: #a5f3fc;
+  margin-top: 12px;
+  font-weight: bold;
+}
+
+#progress {
+  color: #a5f3fc;
+  font-size: 13px;
+  margin-bottom: 15px;
+}
+
+footer {
+  margin-top: 35px;
+  font-size: 13px;
+  opacity: .8;
+}
+</style>
+</head>
+
+<body>
+
+<div class="bubbles" id="bubbles"></div>
+
+<main>
+
+  <div class="heart">🩵</div>
+
+  <h1>Hey Raspberry!</h1>
+
+  <p>I made a tiny corner of the internet just for you.</p>
+  <p>Are you ready for a little surprise? 🫧</p>
+
+  <button onclick="start()">LET'S GO ✨</button>
+
+  <section id="content" class="hidden">
+
+    <div class="card">
+      <h2>Our little story 📖</h2>
+
+      <div class="timeline">
+        <p>🩵 <b>The beginning</b><br>
+        We started as besties.</p>
+
+        <p>🫧 <b>One whole year</b><br>
+        Friendship, memories and countless conversations.</p>
+
+        <p>💙 <b>October 14, 2026</b><br>
+        Our friendship became something more.</p>
+
+        <p>🎉 <b>November 14, 2026</b><br>
+        One month of us!</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Raspberry's mini quiz 🎮</h2>
+      <p>Let's see how well you remember our story!</p>
+
+      <div id="quiz">
+        <div id="progress"></div>
+        <h3 id="question"></h3>
+        <div id="options"></div>
+        <div id="feedback"></div>
+
+        <button id="next" class="hidden" onclick="nextQuestion()">
+          Next question →
+        </button>
+      </div>
+
+      <div id="result" class="hidden">
+        <h2>QUIZ COMPLETED! 🎉</h2>
+        <p id="score"></p>
+        <p>How does it feel being a Raspberry expert? 👀</p>
+        <button onclick="restartQuiz()">Play again ↻</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>A little letter 💌</h2>
+      <p>There's something I wanted you to read...</p>
+
+      <button onclick="revealLetter()">OPEN YOUR LETTER</button>
+
+      <div id="letter" class="hidden">
+        <p>
+          Dear Raspberry, 🩵
+          <br><br>
+          Who would've thought that two besties would end up
+          celebrating one month together?
+          <br><br>
+          I'm so glad we got to turn our friendship into
+          another beautiful chapter.
+          Thank you for the laughs, conversations and
+          all the little memories.
+          <br><br>
+          Here's to more silly moments, more smiles and
+          more memories together.
+          <br><br>
+          Happy one month! 🫧
+          <br><br>
+          With love,<br>
+          Aakhya 💙
+        </p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>ONE LAST SURPRISE 🎁</h2>
+      <p>You've reached the end, Raspberry!</p>
+
+      <button onclick="finalSurprise()">
+        TAP FOR YOUR SURPRISE 💙
+      </button>
+
+      <h2 id="surprise" class="hidden">
+        HAPPY ONE MONTH, RASPBERRY!! 🩵🎉
+      </h2>
+
+      <p id="surpriseText" class="hidden">
+        From besties to us. Our little story is just beginning! 🫧
+      </p>
+    </div>
+
+  </section>
+
+  <footer>
+    Made with lots of cyan and a little bit of love 🩵<br>
+    — Aakhya
+  </footer>
+
+</main>
+
+<script>
+
+// FLOATING BUBBLES
+const bubbleBox = document.getElementById("bubbles");
+
+for (let i = 0; i < 24; i++) {
+  const bubble = document.createElement("div");
+  bubble.className = "bubble";
+
+  const size = 10 + Math.random() * 25;
+
+  bubble.style.width = size + "px";
+  bubble.style.height = size + "px";
+  bubble.style.left = Math.random() * 100 + "%";
+  bubble.style.animationDelay = Math.random() * 12 + "s";
+  bubble.style.animationDuration = (8 + Math.random() * 10) + "s";
+
+  bubbleBox.appendChild(bubble);
+}
+
+// START BUTTON
+function start() {
+  document.getElementById("content").classList.remove("hidden");
+
+  document.getElementById("content").scrollIntoView({
+    behavior: "smooth"
+  });
+
+  showQuestion();
+}
+
+// QUIZ QUESTIONS
+const questions = [
+  {
+    question: "What's Raspberry's favourite colour?",
+    options: ["Pink 💗", "Cyan / Blue 🩵", "Purple 💜", "Yellow 💛"],
+    answer: 1
+  },
+  {
+    question: "How long were we besties before becoming a couple?",
+    options: ["One month", "Six months", "One year", "Two years"],
+    answer: 2
+  },
+  {
+    question: "When did our relationship begin?",
+    options: ["October 1", "October 14", "November 1", "November 14"],
+    answer: 1
+  },
+  {
+    question: "What are we celebrating on November 14?",
+    options: [
+      "One week together",
+      "Six months together",
+      "One month together",
+      "One year together"
+    ],
+    answer: 2
+  }
+];
+
+let current = 0;
+let points = 0;
+let locked = false;
+
+function showQuestion() {
+  locked = false;
+
+  const q = questions[current];
+
+  document.getElementById("progress").textContent =
+    "QUESTION " + (current + 1) + " / " + questions.length;
+
+  document.getElementById("question").textContent = q.question;
+  document.getElementById("feedback").textContent = "";
+
+  document.getElementById("next").classList.add("hidden");
+
+  const optionsBox = document.getElementById("options");
+  optionsBox.innerHTML = "";
+
+  q.options.forEach((option, index) => {
+    const button = document.createElement("button");
+
+    button.className = "option";
+    button.textContent = option;
+    button.onclick = () => chooseAnswer(index);
+
+    optionsBox.appendChild(button);
+  });
+}
+
+function chooseAnswer(index) {
+  if (locked) return;
+
+  locked = true;
+
+  const correct = questions[current].answer === index;
+
+  if (correct) {
+    points++;
+    document.getElementById("feedback").textContent =
+      "YAYYY! You got it right! 🩵";
+  } else {
+    document.getElementById("feedback").textContent =
+      "Oops! Not quite! But you still get a virtual hug! 🫧";
+  }
+
+  document.getElementById("next").classList.remove("hidden");
+}
+
+function nextQuestion() {
+  current++;
+
+  if (current < questions.length) {
+    showQuestion();
+  } else {
+    document.getElementById("quiz").classList.add("hidden");
+    document.getElementById("result").classList.remove("hidden");
+
+    document.getElementById("score").textContent =
+      "Your score: " + points + " / " + questions.length + " 🩵";
+  }
+}
+
+function restartQuiz() {
+  current = 0;
+  points = 0;
+
+  document.getElementById("quiz").classList.remove("hidden");
+  document.getElementById("result").classList.add("hidden");
+
+  showQuestion();
+}
+
+// LOVE LETTER
+function revealLetter() {
+  document.getElementById("letter").classList.remove("hidden");
+}
+
+// FINAL SURPRISE
+function finalSurprise() {
+  document.getElementById("surprise").classList.remove("hidden");
+  document.getElementById("surpriseText").classList.remove("hidden");
+
+  document.getElementById("surprise").scrollIntoView({
+    behavior: "smooth",
+    block: "center"
+  });
+}
+
+</script>
+
+</body>
+  </html>
+  
